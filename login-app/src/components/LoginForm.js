@@ -1,45 +1,36 @@
 import React from "react";
 import { TextInput, Button, Card, Text, ActivityIndicator } from "react-native-paper";
-import { View, StyleSheet, Alert, TouchableOpacity, ScrollView } from "react-native";
+import { View, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { useAuth } from "../AuthContext";
 
-const ForgetPasswordScreen = ({ navigation }) => {
+const LoginForm = ({ navigation }) => {
+
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { resetPassword } = useAuth();
-    const handleResetPassword = async () => {
-        if (!email) {
-            Alert.alert("ข้อผิดพลาด", "กรุณากรอกอีเมล");
+    const { signIn } = useAuth();
+
+    const handleSignIn = async () => {
+        if (!email || !password) {
+            Alert.alert("ข้อผิดพลาด", "กรุณากรอกอีเมลและรหัสผ่าน");
             return;
         }
         setLoading(true);
-        const { data, error } = await resetPassword(email);
+        const { data, error } = await signIn(email, password);
 
         if (error) {
             Alert.alert("ข้อผิดพลาด", error.message);
-        } else {
-            Alert.alert(
-                "สำเร็จ",
-                "ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณแล้ว กรุณาตรวจสอบอีเมล",
-                [
-                    {
-                        text: "ตกลง",
-                        onPress: () => navigation.navigate("Login")
-                    }
-                ]
-            );
+        } else if (data?.user) {
+            Alert.alert("สำเร็จ", "เข้าสู่ระบบเรียบร้อยแล้ว");
         }
         setLoading(false);
     };
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.container}>
             <Card style={styles.card}>
                 <Card.Content>
-                    <Text variant="titleLarge" style={styles.title}>ลืมรหัสผ่าน</Text>
-                    <Text style={styles.description}>
-                        กรุณากรอกอีเมลของคุณ เราจะส่งลิงก์รีเซ็ตรหัสผ่านให้คุณ
-                    </Text>
+                    <Text variant="titleLarge" style={styles.title}>เข้าสู่ระบบ</Text>
 
                     <TextInput
                         label="อีเมล"
@@ -53,30 +44,48 @@ const ForgetPasswordScreen = ({ navigation }) => {
                         disabled={loading}
                     />
 
+                    <TextInput
+                        label="รหัสผ่าน"
+                        mode="outlined"
+                        secureTextEntry
+                        style={styles.input}
+                        value={password}
+                        onChangeText={setPassword}
+                        disabled={loading}
+                    />
+
                     <Button
                         mode="contained"
-                        onPress={handleResetPassword}
+                        onPress={handleSignIn}
                         style={styles.button}
                         disabled={loading}
                     >
-                        {loading ? <ActivityIndicator color="white" /> : "ส่งลิงก์รีเซ็ต"}
+                        {loading ? <ActivityIndicator color="white" /> : "เข้าสู่ระบบ"}
                     </Button>
                     <View style={styles.linkContainer}>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("Login")}
+                            onPress={() => navigation?.navigate("Register")}
                             disabled={loading}
                         >
-                            <Text style={styles.linkText}>กลับไปเข้าสู่ระบบ</Text>
+                            <Text style={styles.linkText}>ยังไม่มีบัญชี? สมัครสมาชิก</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.linkContainer}>
+                        <TouchableOpacity
+                            onPress={() => navigation?.navigate("ForgetPassword")}
+                            disabled={loading}
+                        >
+                            <Text style={styles.linkText}>ลืมรหัสผ่าน?</Text>
                         </TouchableOpacity>
                     </View>
                 </Card.Content>
             </Card>
-        </ScrollView>
+        </View>
     );
 };
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
+        flex: 1,
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
@@ -87,12 +96,7 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: "center",
-        marginBottom: 10,
-    },
-    description: {
-        textAlign: "center",
         marginBottom: 20,
-        color: "#666",
     },
     input: {
         marginBottom: 16,
@@ -110,4 +114,4 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
     },
 });
-export default ForgetPasswordScreen;
+export default LoginForm;

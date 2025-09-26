@@ -1,14 +1,13 @@
 // screens/HomeScreen.js
- import React from "react";
- import { View, Text, StyleSheet, Alert } from "react-native";
- import { Button, Appbar } from "react-native-paper";
- import { useAuth } from "../AuthContext";
- 
- 
- const HomeScreen = ({ navigation }) => {
+import React from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
+import { Button, Appbar } from "react-native-paper";
+import { useAuth } from "../AuthContext";
+
+
+const HomeScreen = ({ navigation }) => {
   const { user, signOut } = useAuth();
- 
- 
+
   const handleLogout = async () => {
     Alert.alert(
       " ออกจากระบบ",
@@ -33,8 +32,7 @@
       ]
     );
   };
- 
- 
+
   return (
     <View style={styles.container}>
       <Appbar.Header style={styles.header}>
@@ -45,13 +43,13 @@
           iconColor="#fff"
         />
       </Appbar.Header>
-     
+
       <View style={styles.content}>
         <Text style={styles.text}> ยินดีต้อนรับสู่แอปพลิเคชัน </Text>
         {user && (
           <Text style={styles.userText}>/?N//: {user.email}</Text>
         )}
-       
+
         <View style={styles.buttonContainer}>
           <Button
             mode="contained"
@@ -65,7 +63,7 @@
           >
             ไปที่หน้ารายละเอียด
           </Button>
-         
+
           <Button
             mode="contained"
             style={styles.button}
@@ -76,8 +74,9 @@
       </View>
     </View>
   );
- };
- const styles = StyleSheet.create({
+};
+
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -108,5 +107,5 @@
   button: {
     marginBottom: 15,
   },
- });
- export default HomeScreen;
+});
+export default HomeScreen;

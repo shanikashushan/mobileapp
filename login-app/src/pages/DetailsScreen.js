@@ -11,7 +11,7 @@ const DetailsScreen = ({ route, navigation }) => {
             <Text>หัวข้อที่ได้รับ:{title}</Text>
             <Button
                 title=" กลับไปที่หน้าหลัก "
-                
+
                 onPress={() => navigation.goBack()}
             />
         </View>

@@ -1,21 +1,20 @@
- import React from "react";
- import { createNativeStackNavigator } from "@react-navigation/native-stack";
- import { NavigationContainer } from "@react-navigation/native";
- import { useAuth } from "../src/AuthContext";
- import LoadingScreen from "../components/LoadingScreen";
- 
- 
- import HomeScreen from "../pages/HomeScreen";
- import DetailsScreen from "../pages/DetailsScreen";
- import LoginPage from "../pages/LoginPage";
- import DataScreen from "../pages/DataScreen";
- import DataDetailScreen from "../pages/DataDetailScreen";
- import RegisterScreen from "../pages/RegisterScreen";
- import ForgetPasswordScreen from "../pages/ForgetPasswordScreen";
- 
- const Stack = createNativeStackNavigator();
- 
- const AuthStack = () => {
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { useAuth } from "../AuthContext";
+
+
+import HomeScreen from "../pages/HomeScreen";
+import DetailsScreen from "../pages/DetailsScreen";
+import LoginPage from "../pages/LoginPage";
+import DataScreen from "../pages/DataScreen";
+import RegisterScreen from "../pages/RegisterScreen";
+import ForgetPasswordScreen from "../pages/ForgetPasswordScreen";
+import LoadingScreen from "../components/LoadingScreen";
+
+const Stack = createNativeStackNavigator();
+
+const AuthStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Login"
@@ -56,9 +55,9 @@
       />
     </Stack.Navigator>
   );
- };
- 
- const MainStack = () => {
+};
+
+const MainStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
@@ -96,30 +95,22 @@
           headerBackTitle: " กลับ "
         }}
       />
-      <Stack.Screen
-        name="DataDetail"
-        component={DataDetailScreen}
-        options={{
-          title: " รายละเอียดประเทศ ",
-          headerBackTitle: " กลับ "
-        }}
-      />
     </Stack.Navigator>
   );
- };
- 
- const AppNavigator = () => {
+};
+
+const AppNavigator = () => {
   const { user, loading } = useAuth();
- 
+
   if (loading) {
     return <LoadingScreen />;
   }
- 
+
   return (
     <NavigationContainer>
       {user ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   );
- };
- 
- export default AppNavigator;
+};
+
+export default AppNavigator;
