@@ -11,6 +11,7 @@ import DataScreen from "../pages/DataScreen";
 import RegisterScreen from "../pages/RegisterScreen";
 import ForgetPasswordScreen from "../pages/ForgetPasswordScreen";
 import LoadingScreen from "../components/LoadingScreen";
+import AdminProductsScreen from "../pages/AdminProductsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,11 +38,19 @@ const AuthStack = () => {
           headerShown: false
         }}
       />
+            <Stack.Screen
+        name="Addmin"
+        component={AdminProductsScreen}
+        options={{
+          title: " เพิ่มสินค้า ",
+          headerShown: false
+        }}
+      />
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
         options={{
-          title: " สมัครสมาชิก ",
+          title: "สมัครสมาชิก",
           headerBackTitle: " กลับ "
         }}
       />

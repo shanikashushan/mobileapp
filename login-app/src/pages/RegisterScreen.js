@@ -49,7 +49,7 @@ const RegisterScreen = ({ navigation }) => {
                 <Card.Content>
                     <Text variant="titleLarge" style={styles.title}>สมัครสมาชิก</Text>
                     <TextInput
-                        label="/?N//"
+                        label="อีเมล"
                         mode="outlined"
                         keyboardType="email-address"
                         autoCapitalize="none"
