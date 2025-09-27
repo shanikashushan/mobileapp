@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     description: {
         textAlign: "center",
         marginBottom: 20,
-        color: "#666",
+        color: "#c71717ff",
     },
     input: {
         marginBottom: 16,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     linkText: {
-        color: "#6200ea",
+        color: "#060a0cff",
         textDecorationLine: "underline",
     },
 });

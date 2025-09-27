@@ -4,7 +4,7 @@ import { ActivityIndicator, Text } from "react-native-paper";
 const LoadingScreen = () => {
     return (
         <View style={styles.container}>
-            <ActivityIndicator size="large" color="#6200ea" />
+            <ActivityIndicator size="large" color="#d5b7ffff" />
             <Text style={styles.text}>กำลังโหลด...</Text>
         </View>
     );

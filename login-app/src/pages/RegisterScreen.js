@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     linkText: {
-        color: "#6200ea",
+        color: "#1c1fceff",
         textDecorationLine: "underline",
     },
 });

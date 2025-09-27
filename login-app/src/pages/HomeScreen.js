@@ -1,37 +1,15 @@
 // screens/HomeScreen.js
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { Appbar, Card, Button, Badge, IconButton } from "react-native-paper";
 import { useAuth } from "../AuthContext";
-import { supabase } from "../config/supabase"; // import supabase client
+import { useProducts } from "../ProductContext"; 
+import { useCart } from "../CartContext";
 
 const HomeScreen = ({ navigation }) => {
-  const { signOut, user } = useAuth(); // user จาก context
-  const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // ดึงข้อมูลสินค้าจาก Supabase
-  const fetchProducts = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("created_at", { ascending: true });
-
-    if (error) console.log("Error fetching products:", error.message);
-    else setProducts(data);
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const addToCart = (item) => {
-    setCart([...cart, item]);
-  };
+  const { signOut, user } = useAuth(); 
+  const { products, loading } = useProducts(); 
+  const { cartItems, addToCart } = useCart(); // Use the cart context
 
   const handleLogout = async () => {
     await signOut();
@@ -41,17 +19,23 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/* App Bar */}
       <Appbar.Header style={styles.header}>
-        <Appbar.Content title="ร้านเสน่ห์ชา" />
+        <Appbar.Content title="Flower shop" />
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <IconButton icon="cart" iconColor="#fff" onPress={() => { }} />
-          {cart.length > 0 && <Badge style={styles.badge}>{cart.length}</Badge>}
-          <Appbar.Action icon="logout" onPress={handleLogout} iconColor="#fff" />
+          <IconButton 
+            icon="cart" 
+            iconColor="#ad0606ff" 
+            onPress={() => navigation.navigate("Cart")} 
+          />
+          {cartItems.length > 0 && (
+            <Badge style={styles.badge}>{cartItems.length}</Badge>
+          )}
+          <Appbar.Action icon="logout" onPress={handleLogout} iconColor="#c21a1aff" />
         </View>
       </Appbar.Header>
 
       {/* Banner */}
       <View style={styles.banner}>
-        <Text style={styles.bannerText}>เมนูแนะนำ</Text>
+        <Text style={styles.bannerText}>สินค้าแนะนำ</Text>
       </View>
 
       {/* ปุ่มไปหน้าแอดมิน (แสดงเฉพาะ admin) */}
@@ -75,10 +59,14 @@ const HomeScreen = ({ navigation }) => {
           contentContainerStyle={styles.productList}
           renderItem={({ item }) => (
             <Card style={styles.card}>
-              <Card.Cover source={{ uri: item.image_url }} />
+              <Card.Cover source={{ uri: item.image_url ?? "https://placehold.co/300" }} />
               <Card.Content>
                 <Text style={styles.productName}>{item.name}</Text>
                 <Text style={styles.productPrice}>{item.price} บาท</Text>
+                {/* แสดงหมวดหมู่ด้วย */}
+                <Text style={styles.productCategory}>
+                  หมวดหมู่: {item.categories?.name ?? "สินค้าขายดี"}
+                </Text>
               </Card.Content>
               <Card.Actions>
                 <Button mode="contained" onPress={() => addToCart(item)}>
@@ -94,15 +82,16 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f9f9f9" },
-  header: { backgroundColor: "#6200ea" },
+  container: { flex: 1, backgroundColor: "#fdd1ffff" },
+  header: { backgroundColor: "#ffcfdfff" },
   badge: { position: "absolute", top: 5, right: 55 },
-  banner: { backgroundColor: "#6200ea", padding: 20, alignItems: "center" },
-  bannerText: { fontSize: 28, fontWeight: "bold", color: "#fff" },
+  banner: { backgroundColor: "#FFF0F5", padding: 15, alignItems: "center" },
+  bannerText: { fontSize: 30, fontWeight: "bold", color: "#200207ff" },
   productList: { padding: 10 },
   card: { marginBottom: 15 },
-  productName: { fontSize: 18, marginTop: 8 },
-  productPrice: { fontSize: 16, color: "#666", marginBottom: 8 },
+  productName: { fontSize: 20, marginTop: 8 },
+  productPrice: { fontSize: 20, color: "#301c1cff", marginBottom: 4 },
+  productCategory: { fontSize: 15, color: "#999" },
 });
 
 export default HomeScreen;

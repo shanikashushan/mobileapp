@@ -60,8 +60,9 @@ const LoginForm = () => {
                         onPress={handleSignIn}
                         style={styles.button}
                         disabled={loading}
+                        
                     >
-                        {loading ? <ActivityIndicator color="white" /> : "เข้าสู่ระบบ"}
+                        {loading ? <ActivityIndicator color="LightGray" /> : "เข้าสู่ระบบ"}
                     </Button>
                     <View style={styles.linkContainer}>
                         <TouchableOpacity
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     linkText: {
-        color: "#6200ea",
+        color: "#1e329eff",
         textDecorationLine: "underline",
     },
 });

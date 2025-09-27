@@ -12,6 +12,8 @@ import RegisterScreen from "../pages/RegisterScreen";
 import ForgetPasswordScreen from "../pages/ForgetPasswordScreen";
 import LoadingScreen from "../components/LoadingScreen";
 import AdminProductsScreen from "../pages/AdminProductsScreen";
+import useCart from "../pages/CartScreen";
+import CartScreen from "../pages/CartScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,9 +24,9 @@ const AuthStack = () => {
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: '#6200ea',
+          backgroundColor: '#ff9efaff',
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#fff5f5ff',
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -38,7 +40,7 @@ const AuthStack = () => {
           headerShown: false
         }}
       />
-            <Stack.Screen
+          <Stack.Screen
         name="Addmin"
         component={AdminProductsScreen}
         options={{
@@ -54,6 +56,7 @@ const AuthStack = () => {
           headerBackTitle: " กลับ "
         }}
       />
+
       <Stack.Screen
         name="ForgetPassword"
         component={ForgetPasswordScreen}
@@ -72,7 +75,7 @@ const MainStack = () => {
       initialRouteName="Home"
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#6200ea',
+          backgroundColor: '#f3b8ffff',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -80,6 +83,21 @@ const MainStack = () => {
         },
       }}
     >
+      <Stack.Screen
+      name="Admin"
+      component={AdminProductsScreen}
+      options={{ 
+        title: "จัดการสินค้า",
+        headerBackTitle: " สินค้า "
+      }}
+  />
+      <Stack.Screen
+      name="Cart"
+      component={CartScreen}
+      options={{ 
+        title: "ตะกร้าสินค้า"
+       }}
+  />
       <Stack.Screen
         name="Home"
         component={HomeScreen}
